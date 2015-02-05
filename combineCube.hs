@@ -14,7 +14,7 @@ type Population = Double
 
 main = do main4
 
--- correct the stupid format of molcas CUBE into something that makes sense
+--hihiih correct the stupid format of molcas CUBE into something that makes sense
 main4 = do
         cubesS <- readShell "ls *.cube"
         let cubeN = lines cubesS
