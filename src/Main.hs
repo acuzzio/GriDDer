@@ -12,7 +12,8 @@ import DataTypes
 import Verbatim
 import VerbatimParser
 
-
+read2 x = read x :: Double
+read3 x = read x :: Int
 
 main :: IO()
 main = do
@@ -49,13 +50,32 @@ options = [
    (NoArg Help)
    "display this message",
    Option "c" ["createGrid"]
-   (ReqArg CreateGrid "Input List")
-   "This option creates a grid file and a corrector file for Molcas program GRID_IT"
+   (ReqArg CreateGrid "List")
+   optionLowCHelp
    ]
 
 getExpression :: Flag -> IO ()
 getExpression flag =
-   case flag of
-       CreateGrid xs -> do
-         createGrid xs
+ case flag of
+      CreateGrid st -> do
+        let list = words st
+        case length list of
+             6 -> do 
+                let [a,b,c,d,e,f] = list
+                    corner = map read2 [a,b,c]
+                    xPoints = read3 d
+                    yPoints = read3 e
+                    zPoints = read3 f
+                createGrid corner xPoints yPoints zPoints
+                putStrLn "Files NEWGRID and CorrectionToGrids created."
+             otherwise -> do putStrLn "ERROR, you should write 6 argouments"
+         
 
+
+optionLowCHelp = printVerbatim [verbatim|
+This option creates a grid file and a corrector file 
+for Molcas program GRID_IT. It must be launched as:
+$ GriDDer -c "x y z resX resY resZ"
+$ GriDDer -c "-10 -10 -10 60 60 60"
+Where x,y,z are box's corner coords and res are
+points along that direction|]

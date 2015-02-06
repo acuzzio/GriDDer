@@ -6,25 +6,25 @@ import Text.Printf
 import Verbatim
 import VerbatimParser
 
--- I need those to be called from outside
-corner    = [-10.0,-10.0,-10.0]
-xPoints = 60
-yPoints = 60
-zPoints = 60
+---- I need those to be called from outside
+--corner    = [-10.0,-10.0,-10.0]
+--xPoints = 60
+--yPoints = 60
+--zPoints = 60
 
-otherCorn = fmap (*(-1)) corner
+otherCorn x = fmap (*(-1)) x
 
 outF = "NEWGRID"
 outCorrr = "CorrectionToGrids"
 
-createGrid string = do
-       let a = generateGrid otherCorn corner
+createGrid corner xPoints yPoints zPoints = do
+       let a = generateGrid xPoints yPoints zPoints (otherCorn corner) corner
            n = length a
        writeFile outF $ show n
        putStrLn $ show n
        writeFile outF $ unlines $ concat a
-       writeFile outCorrr $ liftNumbersToVerb xPoints yPoints zPoints corner otherCorn
-       putStrLn $ liftNumbersToVerb xPoints yPoints zPoints corner otherCorn
+       writeFile outCorrr $ liftNumbersToVerb xPoints yPoints zPoints corner (otherCorn corner)
+       putStrLn $ liftNumbersToVerb xPoints yPoints zPoints corner (otherCorn corner)
 
 liftNumbersToVerb xPoints yPoints zPoints (c1:c2:c3:[]) (c4:c5:c6:[]) = let
   pr   = printf "%.3f"
@@ -39,8 +39,8 @@ liftNumbersToVerb xPoints yPoints zPoints (c1:c2:c3:[]) (c4:c5:c6:[]) = let
   in printVerbatim $ correction (l x) (l y) (l z) (l2 c1) (l2 c2) (l2 c3) (l2 dim1) (l2 dim2) (l2 dim3)
   
 
-generateGrid :: [Double] -> [Double] -> [[String]]
-generateGrid (a:b:c:[]) (d:e:f:[]) = let
+--generateGrid :: [Double] -> [Double] -> [[String]]
+generateGrid xPoints yPoints zPoints (a:b:c:[]) (d:e:f:[]) = let
          p      = printf "%.5f"
          listX  = map p $ listar a d xPoints 
          listY  = map p $ listar b e yPoints
