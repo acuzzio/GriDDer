@@ -15,23 +15,22 @@ build-type:          Simple
 cabal-version:       >=1.8
 
 executable GriDDer
-ghc == 7.*
-ghc-options:
--O2
--rtsopts
--threaded
+  ghc == 7.*
+  ghc-options:
+    -O2
+    -rtsopts
+    -threaded
+  build-depends:
+    base ==4.6.*, 
+    syb ==0.4.*, 
+    template-haskell ==2.8.*, 
+    parsec ==3.1.*,
+    directory,
+    ParsecTools,
+    process == 1.1.*,
+    split,
+    shqq
 
-build-depends:
-base ==4.6.*, 
-syb ==0.4.*, 
-template-haskell ==2.8.*, 
-parsec ==3.1.*,
-directory,
-ParsecTools,
-process == 1.1.*,
-split,
-shqq
-
-hs-source-dirs: src
-main-is: Main.hs
-other-modules: Verbatim, VerbatimParser 
+  hs-source-dirs: src
+  main-is: Main.hs
+  other-modules: Verbatim, VerbatimParser 
