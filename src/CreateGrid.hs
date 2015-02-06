@@ -1,4 +1,5 @@
 {-# Language QuasiQuotes #-}
+module CreateGrid where
 
 import Text.Printf
 
@@ -16,7 +17,7 @@ otherCorn = fmap (*(-1)) corner
 outF = "NEWGRID"
 outCorrr = "CorrectionToGrids"
 
-main = do
+createGrid string = do
        let a = generateGrid otherCorn corner
            n = length a
        writeFile outF $ show n

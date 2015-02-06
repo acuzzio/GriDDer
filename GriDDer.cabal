@@ -33,4 +33,4 @@ executable GriDDer
 
   hs-source-dirs: src
   main-is: Main.hs
-  other-modules: Verbatim, VerbatimParser 
+  other-modules: CreateGrid, Verbatim, VerbatimParser 
