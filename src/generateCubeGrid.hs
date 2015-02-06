@@ -6,18 +6,23 @@ import Verbatim
 import VerbatimParser
 
 -- I need those to be called from outside
-corner    = [-10.5,-7,-7]
+corner    = [-10.0,-10.0,-10.0]
 xPoints = 60
-yPoints = 40
-zPoints = 40
+yPoints = 60
+zPoints = 60
 
 otherCorn = fmap (*(-1)) corner
+
+outF = "NEWGRID"
+outCorrr = "CorrectionToGrids"
 
 main = do
        let a = generateGrid otherCorn corner
            n = length a
+       writeFile outF $ show n
        putStrLn $ show n
---       putStrLn $ unlines $ concat a
+       writeFile outF $ unlines $ concat a
+       writeFile outCorrr $ liftNumbersToVerb xPoints yPoints zPoints corner otherCorn
        putStrLn $ liftNumbersToVerb xPoints yPoints zPoints corner otherCorn
 
 liftNumbersToVerb xPoints yPoints zPoints (c1:c2:c3:[]) (c4:c5:c6:[]) = let
