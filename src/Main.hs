@@ -66,7 +66,7 @@ getExpression flag =
                     xPoints = read3 d
                     yPoints = read3 e
                     zPoints = read3 f
-                createGrid corner xPoints yPoints zPoints
+                createGrid corner xPoints yPoints zPoints 
                 putStrLn "Files NEWGRID and CorrectionToGrids created."
              otherwise -> do putStrLn "ERROR, you should write 6 argouments"
          
@@ -78,4 +78,4 @@ for Molcas program GRID_IT. It must be launched as:
 $ GriDDer -c "x y z resX resY resZ"
 $ GriDDer -c "-10 -10 -10 60 60 60"
 Where x,y,z are box's corner coords and res are
-points along that direction|]
+points along that direction.|]
