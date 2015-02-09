@@ -75,7 +75,10 @@ getExpression flag =
 optionLowCHelp = printVerbatim [verbatim|
 This option creates a grid file and a corrector file 
 for Molcas program GRID_IT. It must be launched as:
+
 $ GriDDer -c "x y z resX resY resZ"
+
 $ GriDDer -c "-10 -10 -10 60 60 60"
+
 Where x,y,z are box's corner coords and res are
 points along that direction.|]

@@ -20,9 +20,9 @@ outCorrr = "CorrectionToGrids"
 createGrid corner xPoints yPoints zPoints = do
        let a = generateGrid xPoints yPoints zPoints (otherCorn corner) corner
            n = length a
-       writeFile outF $ show n
        putStrLn $ show n
-       writeFile outF $ unlines $ concat a
+       writeFile outF $ (show n) ++ "\n"
+       appendFile outF $ unlines $ concat a
        writeFile outCorrr $ liftNumbersToVerb xPoints yPoints zPoints corner (otherCorn corner)
        putStrLn $ liftNumbersToVerb xPoints yPoints zPoints corner (otherCorn corner)
 
