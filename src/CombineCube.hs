@@ -26,7 +26,7 @@ weightCubeByDistance file atomN = do
 
 weightAGridOverACoord :: [Double] -> [[Double]] -> [Double] -> [Double]
 weightAGridOverACoord grid gridCoord atom = let
-  coefficients = map (oneOverDistSquared atom) gridCoord
+  coefficients = parMap rdeepseq (oneOverDistSquared atom) gridCoord
   in parZipWith rdeepseq (*) grid coefficients
 
 oneOverDistSquared :: [Double] -> [Double] -> Double
@@ -48,7 +48,7 @@ makeDifference :: FilePath -> FilePath -> IO ()
 makeDifference a b = do
   s0 <- readCube a
   s1 <- readCube b
-  let difference = zipWith (-) (getGrid s1) (getGrid s0) 
+  let difference = parZipWith rdeepseq (-) (getGrid s1) (getGrid s0) 
       cube       = Grid (getHead s0) (getMatDim s0) difference
       aa         = trimExtension a
       bb         = trimExtension b
