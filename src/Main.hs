@@ -3,17 +3,17 @@ module Main where
 
 import Control.Monad
 import Data.List
+import Data.List.Split
 import System.Console.GetOpt
 import System.Environment (getArgs)
 import System.Exit
 
 import CreateGrid
+import CombineCube
 import DataTypes
+import Functions
 import Verbatim
 import VerbatimParser
-
-read2 x = read x :: Double
-read3 x = read x :: Int
 
 main :: IO()
 main = do
@@ -50,8 +50,11 @@ options = [
    (NoArg Help)
    "display this message",
    Option "c" ["createGrid"]
-   (ReqArg CreateGrid "List")
-   optionLowCHelp
+   (ReqArg CreateGrid "Box")
+   optionLowCHelp,
+   Option "d" ["diff"]
+   (ReqArg Diff "file1,file2")
+   optionLowDHelp
    ]
 
 getExpression :: Flag -> IO ()
@@ -69,7 +72,11 @@ getExpression flag =
                 createGrid corner xPoints yPoints zPoints 
                 putStrLn "Files NEWGRID and CorrectionToGrids created."
              otherwise -> do putStrLn "ERROR, you should write 6 argouments"
-         
+      Diff st -> do
+        let fileList = splitWhen (== ',') st
+        case length fileList of
+             2 -> do makeDifference (fileList!!0) (fileList!!1) 
+             otherwise -> do putStrLn "ERROR, for option -d you should write a single argoument (no spaces) like this file1.cube,file2.cube"
 
 
 optionLowCHelp = printVerbatim [verbatim|
@@ -81,4 +88,17 @@ $ GriDDer -c "x y z resX resY resZ"
 $ GriDDer -c "-10 -10 -10 60 60 60"
 
 Where x,y,z are box's corner coords and res are
-points along that direction.|]
+points along that direction.
+
+|]
+
+optionLowDHelp = printVerbatim [verbatim|
+This option calculates the difference between
+two grid files.
+
+$ Gridder -d file1.cube,file2.cube
+
+You have to use comma without space to give one
+argument to the d flag. One day I'll figure out 
+how to do it.
+|]
