@@ -11,3 +11,7 @@ printRightDigits n nDigits =
 
 trimExtension :: String -> String
 trimExtension a = init $ reverse $ dropWhile (/= '.') $ reverse a
+
+tail2 = tail . tail
+
+bohr2Ang = 0.529177249

@@ -54,7 +54,10 @@ options = [
    optionLowCHelp,
    Option "d" ["diff"]
    (ReqArg Diff "file1,file2")
-   optionLowDHelp
+   optionLowDHelp,
+   Option "w" ["weight"]
+   (ReqArg Weight "file,atomN")
+   optionLowWHelp
    ]
 
 getExpression :: Flag -> IO ()
@@ -77,7 +80,13 @@ getExpression flag =
         case length fileList of
              2 -> do makeDifference (fileList!!0) (fileList!!1) 
              otherwise -> do putStrLn "ERROR, for option -d you should write a single argoument (no spaces) like this file1.cube,file2.cube"
-
+      Weight st -> do
+        let fileList = splitWhen (== ',') st
+        case length fileList of
+             2 -> do 
+                  let atomNumber = read3 (fileList!!1) 
+                  weightCubeByDistance (fileList!!0) atomNumber
+             otherwise -> do putStrLn "ERROR, for option -w you should write a single argoument (no spaces) like this file,atomN -> 'blabla.cube,3' "
 
 optionLowCHelp = printVerbatim [verbatim|
 This option creates a grid file and a corrector file 
@@ -101,4 +110,16 @@ $ Gridder -d file1.cube,file2.cube
 You have to use comma without space to give one
 argument to the d flag. One day I'll figure out 
 how to do it.
+|]
+
+optionLowWHelp = printVerbatim [verbatim|
+This option weight the grid based on an Atom 
+coordinate. In a way that you get a grid that
+is weighted 1/(r^2) with respect to this atom
+
+$ Gridder -w file,3
+
+Yeah, comma separated, do not feel like I want
+to change the command line parser : )
+
 |]
