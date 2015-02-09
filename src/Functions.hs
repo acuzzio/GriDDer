@@ -1,5 +1,7 @@
 module Functions where
 
+import Control.Parallel.Strategies
+
 read2 x = read x :: Double
 read3 x = read x :: Int
 
@@ -15,3 +17,6 @@ trimExtension a = init $ reverse $ dropWhile (/= '.') $ reverse a
 tail2 = tail . tail
 
 bohr2Ang = 0.529177249
+
+parZipWith :: Strategy c -> (a -> b -> c) -> [a] -> [b] -> [c]
+parZipWith strat f xs ys = (`using` parList strat) $ zipWith f xs ys

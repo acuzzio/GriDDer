@@ -114,7 +114,7 @@ how to do it.
 
 optionLowWHelp = printVerbatim [verbatim|
 This option weight the grid based on an Atom 
-coordinate. In a way that you get a grid that
+coordinate. In this way that you get a grid that
 is weighted 1/(r^2) with respect to this atom
 
 $ Gridder -w file,3

@@ -1,5 +1,6 @@
 module CombineCube where
 
+import Control.Parallel.Strategies
 import Data.List.Split
 import Text.Printf
 
@@ -26,7 +27,7 @@ weightCubeByDistance file atomN = do
 weightAGridOverACoord :: [Double] -> [[Double]] -> [Double] -> [Double]
 weightAGridOverACoord grid gridCoord atom = let
   coefficients = map (oneOverDistSquared atom) gridCoord
-  in zipWith (*) grid coefficients
+  in parZipWith rdeepseq (*) grid coefficients
 
 oneOverDistSquared :: [Double] -> [Double] -> Double
 oneOverDistSquared xs ys = let 
