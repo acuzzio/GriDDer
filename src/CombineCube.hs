@@ -31,7 +31,7 @@ weightAGridOverACoord grid gridCoord atom = let
 
 oneOverDistSquared :: [Double] -> [Double] -> Double
 oneOverDistSquared xs ys = let 
-  denom = sum $ map (\x -> x ** 2 ) $ zipWith (-) ys xs
+  denom = sum $ map (\x -> x ** 2 ) $ zipWith (-) ys (fmap (*(-1)) xs) 
   in 1.0 / denom
 
 generateGrid2 matDim = let

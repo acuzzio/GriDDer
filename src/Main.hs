@@ -32,9 +32,9 @@ useMessage = putStrLn $ usageInfo (printVerbatim startMessage) options
 
 startMessage = [verbatim|
 
-   **************************
-   * Welcome to GriDDer !!! *
-   **************************
+    ------------------------ 
+   | Welcome to GriDDer !!! |
+    ------------------------ 
    |]
 
 -- avaiable command line direct option in this program. Each option has
@@ -89,8 +89,9 @@ getExpression flag =
              otherwise -> do putStrLn "ERROR, for option -w you should write a single argoument (no spaces) like this file,atomN -> 'blabla.cube,3' "
 
 optionLowCHelp = printVerbatim [verbatim|
-This option creates a grid file and a corrector file 
-for Molcas program GRID_IT. It must be launched as:
+This option creates a grid file (origin-symmetric)
+and a corrector file for Molcas program GRID_IT. 
+It must be launched as:
 
 $ GriDDer -c "x y z resX resY resZ"
 
@@ -107,9 +108,8 @@ two grid files.
 
 $ Gridder -d file1.cube,file2.cube
 
-You have to use comma without space to give one
-argument to the d flag. One day I'll figure out 
-how to do it.
+You have to give just one argument to the d flag. 
+One day I'll figure out how to do it with a space.
 |]
 
 optionLowWHelp = printVerbatim [verbatim|
@@ -119,7 +119,8 @@ is weighted 1/(r^2) with respect to this atom
 
 $ Gridder -w file,3
 
-Yeah, comma separated, do not feel like I want
-to change the command line parser : )
+Yeah, comma separated again... I do not feel 
+like I want to change the command line parser 
+: )
 
 |]
