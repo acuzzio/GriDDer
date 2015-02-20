@@ -109,7 +109,7 @@ two grid files.
 $ Gridder -d file1.cube,file2.cube
 
 You have to give just one argument to the d flag. 
-One day I'll figure out how to do it with a space.
+Two file names separated by a comma. I was lazy.
 |]
 
 optionLowWHelp = printVerbatim [verbatim|
@@ -119,7 +119,7 @@ is weighted 1/(r^2) with respect to this atom
 
 $ Gridder -w file,3
 
-Yeah, comma separated again... I do not feel 
+Yeah, comma separated again... I still don't feel 
 like I want to change the command line parser 
 : )
 
