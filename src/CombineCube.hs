@@ -48,7 +48,7 @@ makeDifference :: FilePath -> FilePath -> IO ()
 makeDifference a b = do
   s0 <- readCube a
   s1 <- readCube b
-  let difference = parZipWith rdeepseq (-) (getGrid s1) (getGrid s0) 
+  let difference = parZipWith rdeepseq (-) (getGrid s0) (getGrid s1) 
       cube       = Grid (getHead s0) (getMatDim s0) difference
       aa         = trimExtension a
       bb         = trimExtension b
