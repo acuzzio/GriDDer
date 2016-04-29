@@ -55,6 +55,9 @@ options = [
    Option "d" ["diff"]
    (ReqArg Diff "file1,file2")
    optionLowDHelp,
+   Option "D" ["diffDx"]
+   (ReqArg DiffDx "file1,file2")
+   optionCapDHelp,
    Option "w" ["weight"]
    (ReqArg Weight "file,atomN")
    optionLowWHelp
@@ -80,6 +83,11 @@ getExpression flag =
         case length fileList of
              2 -> do makeDifference (fileList!!0) (fileList!!1) 
              otherwise -> do putStrLn "ERROR, for option -d you should write a single argoument (no spaces) like this file1.cube,file2.cube"
+      DiffDx st -> do
+        let fileList = splitWhen (== ',') st
+        case length fileList of
+             2 -> do makeDxDifference (fileList!!0) (fileList!!1) 
+             otherwise -> do putStrLn "ERROR, for option -D you should write a single argoument (no spaces) like this file1.dx,file2.dx"
       Weight st -> do
         let fileList = splitWhen (== ',') st
         case length fileList of
@@ -107,6 +115,16 @@ This option calculates the difference between
 two grid files.
 
 $ Gridder -d file1.cube,file2.cube
+
+You have to give just one argument to the d flag. 
+Two file names separated by a comma. I was lazy.
+|]
+
+optionCapDHelp = printVerbatim [verbatim|
+This option calculates the difference between
+two dx files.
+
+$ Gridder -D file1.dx,file2.dx
 
 You have to give just one argument to the d flag. 
 Two file names separated by a comma. I was lazy.

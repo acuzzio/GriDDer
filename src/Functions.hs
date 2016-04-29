@@ -20,3 +20,4 @@ bohr2Ang = 0.529177249
 
 parZipWith :: Strategy c -> (a -> b -> c) -> [a] -> [b] -> [c]
 parZipWith strat f xs ys = (`using` parList strat) $ zipWith f xs ys
+

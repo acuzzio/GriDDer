@@ -64,6 +64,36 @@ readCube fn = do
       floats        = concat $ map (map (\x -> read x :: Double)) $ map words restOfFile
   return $ Grid header restOfHeader floats
 
+fn="Sphere5.Zero.pqr.dx"
+
+makeDxDifference :: FilePath -> FilePath -> IO ()
+makeDxDifference a b = do
+  s0 <- readDxGrid a
+  s1 <- readDxGrid b
+  let difference = parZipWith rdeepseq (-) (getDxGrid s0) (getDxGrid s1) 
+      dx         = Dx (getDxHead s0) difference (getDxFoot s0)
+      aa         = trimExtension a
+      bb         = trimExtension b
+  writeDx (aa ++ bb ++ "Difference.cube") dx
+
+--readDxGrid :: FilePath -> IO (Dx)
+readDxGrid fn = do
+  contents <- readFile fn
+  let splitcontent  = lines contents
+      (header,rest) = splitAt 11 splitcontent
+      ln            = length rest
+      (grid,footer) = splitAt (ln-5) rest
+      gridF         = concat $ map (map (\x -> read x :: Double)) $ map words grid
+  return $ Dx header gridF footer 
+
+writeDx :: FilePath -> Dx -> IO ()
+writeDx fn dx = do
+  let formHeader = unlines (getDxHead dx)
+      formGrid   = unlines $ map unwords $ chunksOf 3 (map show (getDxGrid dx))
+      formFooter = unlines (getDxFoot dx)
+      dxOut      = formHeader ++ formGrid ++ formFooter
+  writeFile fn dxOut
+
 writeCube :: FilePath -> Grid -> IO ()
 writeCube fn grid = do
   let formHeader = unlines (getHead grid) ++ unlines (getMatDim grid)
