@@ -74,7 +74,7 @@ makeDxDifference a b = do
       dx         = Dx (getDxHead s0) difference (getDxFoot s0)
       aa         = trimExtension a
       bb         = trimExtension b
-  writeDx (aa ++ bb ++ "Difference.cube") dx
+  writeDx (aa ++ bb ++ "Difference.dx") dx
 
 --readDxGrid :: FilePath -> IO (Dx)
 readDxGrid fn = do
