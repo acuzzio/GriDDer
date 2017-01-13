@@ -1,10 +1,11 @@
 module DataTypes where
 
 data Flag = Help
-          | CreateGrid String
-          | Diff       String
-          | DiffDx     String
-          | Weight     String
+          | CreateGrid  String
+          | CreateGrid2 String
+          | Diff        String
+          | DiffDx      String
+          | Weight      String
           deriving (Show, Eq)
 
 data Grid = Grid {

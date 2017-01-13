@@ -52,6 +52,9 @@ options = [
    Option "c" ["createGrid"]
    (ReqArg CreateGrid "Box")
    optionLowCHelp,
+   Option "C" ["createGrid2corners"]
+   (ReqArg CreateGrid2 "Box")
+   optionCapCHelp,
    Option "d" ["diff"]
    (ReqArg Diff "file1,file2")
    optionLowDHelp,
@@ -78,6 +81,19 @@ getExpression flag =
                 createGrid corner xPoints yPoints zPoints 
                 putStrLn "Files NEWGRID and CorrectionToGrids created."
              otherwise -> do putStrLn "ERROR, you should write 6 argouments"
+      CreateGrid2 st -> do
+        let list = words st
+        case length list of
+             9 -> do 
+                let [a,b,c,d,e,f,g,h,i] = list
+                    corner  = map read2 [a,b,c]
+                    corner2 = map read2 [d,e,f]
+                    xPoints = read3 g
+                    yPoints = read3 h
+                    zPoints = read3 i
+                createGrid2 corner corner2 xPoints yPoints zPoints 
+                putStrLn "File NEWGRID.txt created."
+             otherwise -> do putStrLn "ERROR, you should write 9 argouments"
       Diff st -> do
         let fileList = splitWhen (== ',') st
         case length fileList of
@@ -108,6 +124,19 @@ $ GriDDer -c "-10 -10 -10 60 60 60"
 Where x,y,z are box's corner coords and res are
 points along that direction.
 
+|]
+
+optionCapCHelp = printVerbatim [verbatim|
+This option creates a grid file between 2 corners.
+It outputs an xyz to view this box in VMD
+It must be launched as:
+
+$ GriDDer -c "x1 y1 z1 x2 y2 z2 resX resY resZ"
+
+$ GriDDer -c "-10 -10 -10 10 10 10 60 60 60"
+
+Where x1,y1,z1 is one corner and x2,y2,z2 is the other
+res are the number of points along that direction.
 |]
 
 optionLowDHelp = printVerbatim [verbatim|

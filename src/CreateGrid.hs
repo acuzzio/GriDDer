@@ -15,6 +15,7 @@ import VerbatimParser
 otherCorn x = fmap (*(-1)) x
 
 outF = "NEWGRID"
+outXyz = "NEWGRID.xyz"
 outCorrr = "CorrectionToGrids"
 
 createGrid corner xPoints yPoints zPoints = do
@@ -25,6 +26,13 @@ createGrid corner xPoints yPoints zPoints = do
        appendFile outF $ unlines $ concat a
        writeFile outCorrr $ liftNumbersToVerb xPoints yPoints zPoints corner (otherCorn corner)
        putStrLn $ liftNumbersToVerb xPoints yPoints zPoints corner (otherCorn corner)
+
+createGrid2 corner1 corner2 xPoints yPoints zPoints = do
+       let a = generateGrid xPoints yPoints zPoints corner2 corner1
+           n = length a
+       putStrLn "You did this when you wanted to paint a Hydrogen atoms box in VMD"
+       writeFile outXyz $ (show n) ++ "\n\n"
+       appendFile outXyz $ unlines $ map ("H " ++ ) $ concat a
 
 liftNumbersToVerb xPoints yPoints zPoints (c1:c2:c3:[]) (c4:c5:c6:[]) = let
   pr   = printf "%.3f"
